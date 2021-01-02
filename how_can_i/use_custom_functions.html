@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Use custom functions - polars-book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction/introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../lazy_polars/intro.html"><strong aria-hidden="true">2.</strong> Lazy Polars</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lazy_polars/predicate_pushdown.html"><strong aria-hidden="true">2.1.</strong> Predicate pushdown</a></li><li class="chapter-item expanded "><a href="../lazy_polars/projection_pushdown.html"><strong aria-hidden="true">2.2.</strong> Projection pushdown</a></li><li class="chapter-item expanded "><a href="../lazy_polars/other_optimizations.html"><strong aria-hidden="true">2.3.</strong> Other optimizations</a></li></ol></li><li class="chapter-item expanded "><a href="../how_can_i/intro.html"><strong aria-hidden="true">3.</strong> How can I?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../how_can_i/groupby.html"><strong aria-hidden="true">3.1.</strong> GroupBy</a></li><li class="chapter-item expanded "><a href="../how_can_i/aggregate.html"><strong aria-hidden="true">3.2.</strong> Aggregate</a></li><li class="chapter-item expanded "><a href="../how_can_i/conditionally_apply.html"><strong aria-hidden="true">3.3.</strong> Conditionally apply</a></li><li class="chapter-item expanded "><a href="../how_can_i/parse_dates.html"><strong aria-hidden="true">3.4.</strong> Parse dates</a></li><li class="chapter-item expanded "><a href="../how_can_i/use_custom_functions.html" class="active"><strong aria-hidden="true">3.5.</strong> Use custom functions</a></li><li class="chapter-item expanded "><a href="../how_can_i/process_strings.html"><strong aria-hidden="true">3.6.</strong> Process strings</a></li><li class="chapter-item expanded "><a href="../how_can_i/apply_window_functions.html"><strong aria-hidden="true">3.7.</strong> Apply window functions</a></li><li class="chapter-item expanded "><a href="../how_can_i/split_apply_combine.html"><strong aria-hidden="true">3.8.</strong> Split/ apply / combine</a></li></ol></li><li class="chapter-item expanded "><a href="../numpy.html"><strong aria-hidden="true">4.</strong> Numpy interop</a></li><li class="chapter-item expanded "><a href="../reference.html"><strong aria-hidden="true">5.</strong> Reference guide</a></li><li class="chapter-item expanded "><a href="../micro_benchmarks.html"><strong aria-hidden="true">6.</strong> Micro benchmarks</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">polars-book</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#how-can-i-use-custom-functions" id="how-can-i-use-custom-functions">How can I use custom functions?</a></h1>
+<p>There will always be an operation so sketchy, so dirty, so grotesque, that you cannot do with the public API of Polars.
+Luckily we provide UDFs (User Defined Functions). This means you can define a python function/ lambda and pass it to the
+logical plan. You can use custom functions in both the eager API as well as the lazy API. </p>
+<h2><a class="header" href="#examples" id="examples">Examples</a></h2>
+<p>Let's start with eager. Let's say we want to apply a map to a Series. This could be done as shown below.</p>
+<h3><a class="header" href="#eager" id="eager">Eager</a></h3>
+<pre><code class="language-python">my_map = {1: &quot;foo&quot;, 2: &quot;bar&quot;, 3: &quot;ham&quot;, 4: &quot;spam&quot;, 5: &quot;eggs&quot;}
+
+s = pl.Series(&quot;a&quot;, [1, 2, 3, 4, 5])
+s = s.apply(lambda x: my_map[x])
+
+
+print(s.collect())
+</code></pre>
+<pre><code class="language-text">Series: 'a' [str]
+[
+	&quot;foo&quot;
+	&quot;bar&quot;
+	&quot;ham&quot;
+	&quot;spam&quot;
+	&quot;eggs&quot;
+]
+</code></pre>
+<p>There are a few gotcha's however. Polars Series can only contain a single datatype. (<em>storing custom Python objects is being worked on</em>)
+In the <code>.apply</code> method above we didn't specify the data type the Series should contain. Polars tries to infer the output
+datatype beforehand by calling the provided function itself. If it later gets a data type that does not matched the 
+initially inferred type, the value will be indicated as missing: <code>null</code>. If you already know the output datatype you need
+it's recommended to provide this information to Polars.</p>
+<pre><code class="language-python">s.apply(lambda x: my_map[x], dtype_out=pl.Utf8)
+</code></pre>
+<h3><a class="header" href="#lazy" id="lazy">Lazy</a></h3>
+<p>In lazy you can apply custom functions via the <code>.map</code> and the <code>.apply</code> methods.</p>
+<h4><a class="header" href="#map" id="map">map</a></h4>
+<p>You can use <code>map</code> to map from a <code>Series</code> to a <code>Series</code> or a <code>DataFrame</code> to 
+a <code>DataFrame</code>. </p>
+<h4><a class="header" href="#apply" id="apply">apply</a></h4>
+<p>Or you can use <code>apply</code> to operate on the values of a <code>Series</code>. The function passed to <code>.apply</code> operate on a single primitive 
+(e.g. int, str, bool).
+The <code>lambda</code> we used above got <code>int</code> as input and returned <code>str</code> after finding the right key in the <code>dictionary</code>.</p>
+<p>When a custom function is used, the output type must also be provided
+because for the optimizer to be able to do optimizations the Schema of the query needs to be known at all times.</p>
+<pre><code class="language-python">import pypolars as pl
+from pypolars.lazy import *
+import numpy as np
+
+np.random.seed(1)
+
+df = pl.DataFrame({&quot;foo&quot;: np.arange(10), &quot;bar&quot;: np.random.rand(10)})
+
+# create a udf
+def my_custom_func(s: Series) -&gt; Series:
+    return np.exp(s) / np.log(s)
+
+
+# a simple wrapper that take a function and sets output type
+my_udf = udf(my_custom_func, output_type=pl.Float64)
+
+# run query with udf
+out = df.lazy().filter(col(&quot;bar&quot;).map(my_udf) &gt; -1)
+
+print(s.collect())
+</code></pre>
+<pre><code class="language-text">shape: (4, 2)
+╭─────┬───────╮
+│ foo ┆ bar   │
+│ --- ┆ ---   │
+│ i64 ┆ f64   │
+╞═════╪═══════╡
+│ 2   ┆ 0.0   │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 4   ┆ 0.147 │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 5   ┆ 0.092 │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 6   ┆ 0.186 │
+╰─────┴───────╯
+</code></pre>
+<p>Above we've defined out own function, added this to the lazy query and it got executed during execution of the physical plan.
+This of course greatly increases flexibility of a query and when needed you are definitely encouraged to do so. This is however
+not without cost. Even though we only use vectorized code in this example (numpy functions and Polars comparisons), this query
+may still be slower than a full Polars native query. This is due to the Python <code>GIL</code>. As mentioned before, polars tries to parallelize
+the query execution on the available cores on your machine. However, in Python there may only be one thread modifying Python objects.
+So if you have many UDF's they'd have to wait in line until they are allowed there GIL time.</p>
+<h3><a class="header" href="#apply-1" id="apply-1">Apply</a></h3>
+<p>Similarly as done in the eager example, we can also <code>apply</code> a lambda over the elements of a <code>Series</code>:</p>
+<pre><code class="language-python">import pypolars as pl
+from pypolars.lazy import *
+
+my_map = {1: &quot;foo&quot;, 2: &quot;bar&quot;, 3: &quot;ham&quot;, 4: &quot;spam&quot;, 5: &quot;eggs&quot;}
+
+df = pl.DataFrame({&quot;foo&quot;: [1, 2, 3, 4, 5]})
+
+# create a udf
+def my_custom_func(s: Series) -&gt; Series:
+    return s.apply(lambda x: my_map[x])
+
+
+# run query with udf
+out = df.lazy().with_column(col(&quot;foo&quot;).map(my_custom_func).alias(&quot;mapped&quot;))
+
+print(out.collect())
+</code></pre>
+<pre><code class="language-text">shape: (5, 2)
+╭─────┬────────╮
+│ foo ┆ mapped │
+│ --- ┆ ---    │
+│ i64 ┆ str    │
+╞═════╪════════╡
+│ 1   ┆ foo    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌╌┤
+│ 2   ┆ bar    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌╌┤
+│ 3   ┆ ham    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌╌┤
+│ 4   ┆ spam   │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌╌┤
+│ 5   ┆ eggs   │
+╰─────┴────────╯
+</code></pre>
+<h3><a class="header" href="#groupby" id="groupby">GroupBy</a></h3>
+<p>You can also use custom functions in a GroupBy context. The most intuitive way to apply custom functions is with the
+<code>apply_groups</code> method. This method will receive a <code>Series</code> of every group as input. Below we'll show 3 ways the get
+the length of the groups, where 2 use custom functions.</p>
+<pre><code class="language-python">import pypolars as pl
+from pypolars.lazy import *
+
+
+df = pl.DataFrame(
+    {
+        &quot;A&quot;: [1, 2, 3, 4, 5],
+        &quot;fruits&quot;: [&quot;banana&quot;, &quot;banana&quot;, &quot;apple&quot;, &quot;apple&quot;, &quot;banana&quot;],
+        &quot;B&quot;: [5, 4, 3, 2, 1],
+        &quot;cars&quot;: [&quot;beetle&quot;, &quot;audi&quot;, &quot;beetle&quot;, &quot;beetle&quot;, &quot;beetle&quot;],
+    }
+)
+
+# two ways to determine the length groups.
+out = (
+    df.lazy()
+    .groupby(&quot;fruits&quot;)
+    .agg(
+        [
+            col(&quot;cars&quot;).apply(lambda groups: groups.len()).alias(&quot;custom_1&quot;),
+            col(&quot;cars&quot;).apply(lambda groups: groups.len()).alias(&quot;custom_2&quot;),
+            pl.count(&quot;cars&quot;),
+        ]
+    )
+)
+
+print(out.collect())
+</code></pre>
+<pre><code class="language-text">shape: (2, 4)
+╭────────┬──────────┬──────────┬────────────╮
+│ fruits ┆ custom_1 ┆ custom_2 ┆ cars_count │
+│ ---    ┆ ---      ┆ ---      ┆ ---        │
+│ str    ┆ i64      ┆ i64      ┆ u32        │
+╞════════╪══════════╪══════════╪════════════╡
+│ apple  ┆ 2        ┆ 2        ┆ 2          │
+├╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ banana ┆ 3        ┆ 3        ┆ 3          │
+╰────────┴──────────┴──────────┴────────────╯
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../how_can_i/parse_dates.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../how_can_i/process_strings.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../how_can_i/parse_dates.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../how_can_i/process_strings.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
